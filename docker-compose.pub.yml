@@ -2,23 +2,18 @@ version: '3'
 
 services:
   frontend:
+    image: kykyshka/time-app-frontend-dev
     build: ./frontend
     restart: always
     ports:
       - "3000:3000"
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app 
   api:
-    build: ./api
+    image: kykyshka/time-app-api-dev
     restart: always
     ports:
       - "5555:5000"
     depends_on:
       - mysql
-    volumes:
-      - /app/node_modules
-      - ./api:/app
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: root
@@ -32,11 +27,11 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: time_db
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data_pub:/var/lib/mysql
   adminer:
     image: adminer
     restart: always
     ports:
       - "8888:8080"
 volumes:
-  mysql_data:
+  mysql_data_pub:
